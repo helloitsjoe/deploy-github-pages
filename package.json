@@ -1,0 +1,15 @@
+{
+  "name": "deploy-github-pages",
+  "main": "docs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --mode development"
+  },
+  "dependencies": {
+    "date-fns": "^2.19.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.24.4",
+    "webpack-cli": "^4.5.0"
+  }
+}
