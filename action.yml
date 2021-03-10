@@ -26,4 +26,3 @@ runs:
     - ${{ inputs.main_branch }}
     - ${{ inputs.target_branch }}
     - ${{ inputs.build_dir }}
-    - ${{ secrets.GITHUB_TOKEN }}

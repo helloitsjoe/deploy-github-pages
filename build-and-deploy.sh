@@ -6,7 +6,6 @@ remote_name=${1}
 main_branch=${2}
 target_branch=${3}
 build_dir=${4}
-GITHUB_TOKEN=${5}
 
 echo "Repo: ${GITHUB_REPOSITORY}"
 repo_uri="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
