@@ -5,11 +5,15 @@ jobs:
     runs-on: ubuntu-20.04
     name: Deploy GitHub Pages
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
       - name: Test step
         id: test
-        uses: ./
+        uses: ../
         with:
           main_branch: main
           target_branch: main
+
       - name: Finish
         run: echo "Done"
