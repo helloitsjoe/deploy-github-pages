@@ -27,12 +27,14 @@ yarn build
 
 git add "${build_dir}"
 
+set +e
 git status
 git commit -m "Deploy :robot:"
-if [ $? -ne 0 ]; then
-    echo "nothing to commit"
+if [[ $? -ne 0 ]]; then
+    echo "Exiting"
     exit 0
 fi
+set -e
 
 git remote set-url "${remote_name}" "${repo_uri}"
 git push --force-with-lease "${remote_name}" "${target_branch}"
