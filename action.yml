@@ -1,4 +1,4 @@
-name: "Deploy gh-pages :robot:"
+name: Deploy gh-pages
 description: Deploy to GitHub Pages
 inputs:
   remote_name:

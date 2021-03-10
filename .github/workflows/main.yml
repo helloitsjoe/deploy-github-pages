@@ -1,9 +1,12 @@
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   deploy_github_pages:
     runs-on: ubuntu-20.04
-    name: Deploy GitHub Pages
+    name: "Deploy :robot:"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
