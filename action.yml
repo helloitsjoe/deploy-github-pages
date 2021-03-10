@@ -17,6 +17,9 @@ inputs:
     description: Directory of built files
     required: false
     default: docs
+  github_token:
+    description: secrets.GITHUB_TOKEN
+    required: true
 
 runs:
   using: docker

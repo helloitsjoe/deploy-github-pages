@@ -8,13 +8,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Test step
-        id: test
+      - name: Deploy
+        id: deploy
         uses: ./
         with:
-          main_branch: main
-          target_branch: main
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Finish
-        run: echo "Done"

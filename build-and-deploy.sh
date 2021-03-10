@@ -21,18 +21,17 @@ git config user.email "${GITHUB_ACTOR}@bots.github.com"
 # git checkout "$target_branch"
 # git rebase "${remote_name}/${main_branch}"
 
-# ./bin/build "$build_dir"
 yarn --frozen-lockfile
 yarn build
 
 git add "$build_dir"
 
 git status
-# git commit -m "Deploy GitHub Pages"
-# if [ $? -ne 0 ]; then
-#     echo "nothing to commit"
-#     exit 0
-# fi
+git commit -m "Deploy GitHub Pages"
+if [ $? -ne 0 ]; then
+    echo "nothing to commit"
+    exit 0
+fi
 
-# git remote set-url "$remote_name" "$repo_uri"
-# git push --force-with-lease "$remote_name" "$target_branch"
+git remote set-url "$remote_name" "$repo_uri"
+git push --force-with-lease "$remote_name" "$target_branch"
