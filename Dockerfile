@@ -1,5 +1,5 @@
 FROM node:14.15
 
-COPY test.sh /test.sh
+COPY build-and-deploy.sh /build-and-deploy.sh
 
-ENTRYPOINT ["/test.sh"]
+ENTRYPOINT ["/build-and-deploy.sh"]
