@@ -6,9 +6,10 @@ remote_name=${1}
 main_branch=${2}
 target_branch=${3}
 build_dir=${4}
+github_token=${4}
 
 echo "Repo: ${GITHUB_REPOSITORY}"
-repo_uri="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+repo_uri="https://x-access-token:${github_token}@github.com/${GITHUB_REPOSITORY}.git"
 
 echo "Workspace: ${GITHUB_WORKSPACE}"
 cd "${GITHUB_WORKSPACE}"
