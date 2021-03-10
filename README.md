@@ -1,7 +1,8 @@
 # Deploy GitHub Pages
 
 This action deploys your built JS to GitHub Pages. It assumes you're deploying
-to the `docs` folder on the `main` branch but allows for other configuration.
+to the `dist` folder on the `gh-pages` branch but allows for other
+configuration.
 
 ## Inputs
 
@@ -15,11 +16,11 @@ The repo's main branch. Default `main`
 
 ### `target_branch`
 
-The target branch to deploy. Default `main`
+The target branch to deploy. Default `gh-pages`
 
 ### `build_dir`
 
-The output directory of your built JavaScript. Default `docs`
+The output directory of your built JavaScript. Default `dist`
 
 ### `github_token`
 
@@ -37,7 +38,7 @@ with:
 ```yml
 uses: helloitsjoe/deploy-github-pages
 with:
-  target_branch: gh-pages
-  build_dir: dist
+  target_branch: main
+  build_dir: docs
   github_token: ${{ secrets.GITHUB_TOKEN }}
 ```

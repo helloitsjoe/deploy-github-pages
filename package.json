@@ -1,9 +1,11 @@
 {
   "name": "deploy-github-pages",
-  "main": "docs",
+  "main": "dist",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode development"
+    "clean": "rm -rf dist && mkdir dist",
+    "public": "cp -r public/* dist/",
+    "build": "yarn clean && yarn public && webpack --mode development"
   },
   "dependencies": {
     "date-fns": "^2.19.0"

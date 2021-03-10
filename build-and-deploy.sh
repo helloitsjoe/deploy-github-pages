@@ -4,9 +4,10 @@ set -Ceuo pipefail
 
 remote_name=${1} # origin
 main_branch=${2} # main
-target_branch=${3} # main
-build_dir=${4} # docs
-github_token=${5}
+target_branch=${3} # gh-pages
+build_dir=${4} # dist
+target_dir=${5} # GitHub workspace root
+github_token=${6}
 
 echo "Repo: ${GITHUB_REPOSITORY}"
 echo "Workspace: ${GITHUB_WORKSPACE}"
@@ -25,7 +26,11 @@ git rebase "${remote_name}/${main_branch}"
 yarn --frozen-lockfile
 yarn build
 
-git add "${build_dir}"
+if [[ "${build_dir}" -ne "${target_dir}"]]; then
+    cp -r "${build_dir}" "${target_dir}"
+fi
+
+git add "${target_dir}"
 
 set +e
 git status
