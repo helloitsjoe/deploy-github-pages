@@ -1,0 +1,28 @@
+name: Deploy GitHub Pages
+description: Deploy to GitHub Pages
+inputs:
+  remote_name:
+    description: Name of remote
+    required: false
+    default: origin
+  main_branch:
+    description: Name of main branch
+    required: false
+    default: main
+  target_branch:
+    description: Name of branch to deploy
+    required: false
+    default: main
+  build_dir:
+    description: Directory of built files
+    required: false
+    default: docs
+
+runs:
+  using: docker
+  image: Dockerfile
+  args:
+    - ${{ inputs.remote_name }}
+    - ${{ inputs.main_branch }}
+    - ${{ inputs.target_branch }}
+    - ${{ inputs.build_dir }}

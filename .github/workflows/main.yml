@@ -1,0 +1,15 @@
+on: [push]
+
+jobs:
+  deploy_github_pages:
+    runs-on: ubuntu-20.04
+    name: Deploy GitHub Pages
+    steps:
+      - name: Test step
+        id: test
+        uses: ./
+        with:
+          main_branch: main
+          target_branch: main
+      - name: Finish
+        run: echo "Done"
