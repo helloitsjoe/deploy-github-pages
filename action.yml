@@ -20,7 +20,6 @@ inputs:
   target_dir:
     description: Directory where built files will be published
     required: false
-    default: ${{ GITHUB_WORKSPACE }}
   github_token:
     description: secrets.GITHUB_TOKEN
     required: true

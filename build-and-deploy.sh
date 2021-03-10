@@ -2,16 +2,17 @@
 
 set -Ceuo pipefail
 
-remote_name=${1} # origin
-main_branch=${2} # main
-target_branch=${3} # gh-pages
-build_dir=${4} # dist
-target_dir=${5} # GitHub workspace root
-github_token=${6}
+github_token=${1}
+remote_name=${2} # origin
+main_branch=${3} # main
+target_branch=${4} # gh-pages
+build_dir=${5} # dist
+target_dir=${6:-GITHUB_WORKSPACE} # GitHub workspace root
 
 echo "Repo: ${GITHUB_REPOSITORY}"
 echo "Workspace: ${GITHUB_WORKSPACE}"
 echo "Actor: ${GITHUB_ACTOR}"
+echo "Target dir: ${target_dir}"
 
 repo_uri="https://x-access-token:${github_token}@github.com/${GITHUB_REPOSITORY}.git"
 
