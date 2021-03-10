@@ -28,7 +28,7 @@ yarn build
 git add "${build_dir}"
 
 git status
-git commit -m "Deploy GitHub Pages"
+git commit -m "Deploy :robot:"
 if [ $? -ne 0 ]; then
     echo "nothing to commit"
     exit 0
