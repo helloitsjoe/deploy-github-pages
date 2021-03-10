@@ -1,3 +1,3 @@
 import addDays from 'date-fns/addDays';
 
-document.write(`TEST ANOTHER DEPLOY ${addDays(new Date(), 1)}`);
+document.write(`TEST BRANCH DEPLOY ${addDays(new Date(), 1)}`);
