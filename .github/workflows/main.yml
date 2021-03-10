@@ -10,7 +10,7 @@ jobs:
 
       - name: Test step
         id: test
-        uses: ../
+        uses: ./
         with:
           main_branch: main
           target_branch: main
