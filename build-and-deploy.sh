@@ -29,8 +29,15 @@ yarn build
 
 if [ "${build_dir}" != "${target_dir}" ]; then
   if [ "${target_dir}" = "${GITHUB_WORKSPACE}" ]; then
-    echo "Moving contents of ${build_dir} to ${target_dir}"
-    mv -v "${build_dir}/"* "${target_dir}/"
+    # Only push subtree if we're on gh-pages
+    if [ "${target_branch}" = "gh-pages" ]; then
+      # TODO: Test this
+      echo "gh-pages, pushing subtree..."
+      git subtree push --prefix "${build_dir}" origin gh-pages
+    else
+      echo "Moving contents of ${build_dir} to ${target_dir}"
+      mv -v "${build_dir}/"* "${target_dir}/"
+    fi
   else
     echo "Renaming ${build_dir} to ${target_dir}"
     mv -v "${build_dir}" "${target_dir}"
