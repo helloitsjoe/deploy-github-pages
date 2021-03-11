@@ -1,3 +1,3 @@
 import addDays from 'date-fns/addDays';
 
-document.write(`GH PAGES DEPLOY DOCS ${addDays(new Date(), 1)}`);
+document.write(`GH PAGES DEPLOY ${addDays(new Date(), 1)}`);
