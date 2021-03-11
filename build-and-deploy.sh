@@ -30,7 +30,7 @@ yarn build
 echo "${build_dir}" "${target_dir}"
 if [ "${build_dir}" != "${target_dir}" ]; then
     echo "Dirs not equal, copying contents of ${build_dir} to ${target_dir}"
-    cp -r "${build_dir}/*" "${target_dir}"
+    cp -r "${build_dir}" "${target_dir}"
 fi
 
 git add "${target_dir}"
