@@ -29,9 +29,7 @@ yarn build
 
 if [ "${target_branch}" = "gh-pages" ]; then
   if [ "${build_dir}" != "${target_dir}" ]; then
-    echo "Replacing contents of ${target_dir} with ${build_dir}"
-    # rm -rf everything at gh-pages root, excluding build_dir
-    find "${target_dir}/"* -not -name "${build_dir}" -prune -exec rm -rf {} +
+    echo "Moving contents of ${build_dir} to ${target_dir}"
     mv -v "${build_dir}/"* "${target_dir}/"
   fi
 fi
