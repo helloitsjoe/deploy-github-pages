@@ -1,6 +1,9 @@
 name: Deploy gh-pages
 description: Deploy to GitHub Pages
 inputs:
+  github_token:
+    description: secrets.GITHUB_TOKEN
+    required: true
   remote_name:
     description: Name of the remote
     required: false
@@ -20,17 +23,14 @@ inputs:
   target_dir:
     description: Directory where built files will be published
     required: false
-  github_token:
-    description: secrets.GITHUB_TOKEN
-    required: true
 
 runs:
   using: docker
   image: Dockerfile
   args:
+    - ${{ inputs.github_token }}
     - ${{ inputs.remote_name }}
     - ${{ inputs.main_branch }}
     - ${{ inputs.target_branch }}
     - ${{ inputs.build_dir }}
     - ${{ inputs.target_dir }}
-    - ${{ inputs.github_token }}
