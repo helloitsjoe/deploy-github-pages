@@ -23,7 +23,6 @@ git config user.name "${GITHUB_ACTOR}"
 git config user.email "${GITHUB_ACTOR}@bots.github.com"
 
 git fetch
-git branch remote
 git checkout "${target_branch}"
 git rebase "${remote_name}/${main_branch}"
 
