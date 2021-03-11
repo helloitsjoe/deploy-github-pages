@@ -34,6 +34,8 @@ if [ "${build_dir}" != "${target_dir}" ]; then
       # TODO: Test this
       echo "gh-pages, pushing subtree..."
       git subtree push --prefix "${build_dir}" origin gh-pages
+      echo 'Pushed subtree, exiting...'
+      exit 0
     else
       echo "Moving contents of ${build_dir} to ${target_dir}"
       mv -v "${build_dir}/"* "${target_dir}/"
@@ -46,6 +48,7 @@ else
   echo "Build and target dirs are the same, continuing..."
 fi
 
+echo 'Staging changes...'
 git add "${target_dir}"
 
 set +e
