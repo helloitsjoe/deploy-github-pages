@@ -31,7 +31,7 @@ if [ "${target_branch}" = "gh-pages" ]; then
   if [ "${build_dir}" != "${target_dir}" ]; then
     echo "Replacing contents of ${target_dir} with ${build_dir}"
     # rm -rf everything at gh-pages root, excluding build_dir, and silence output
-    find "${target_dir}" -type d -not -name "${build_dir}" -exec rm -rf {} +
+    find "${target_dir}/"* -type d -not -name "${build_dir}" -exec rm -rf {} +
     mv -v "${build_dir}/"* "${target_dir}/"
   fi
 fi
