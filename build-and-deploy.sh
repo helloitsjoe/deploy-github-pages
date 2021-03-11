@@ -18,7 +18,6 @@ repo_uri="https://x-access-token:${github_token}@github.com/${GITHUB_REPOSITORY}
 
 cd "${GITHUB_WORKSPACE}"
 
-
 git config user.name "${GITHUB_ACTOR}"
 git config user.email "${GITHUB_ACTOR}@bots.github.com"
 
