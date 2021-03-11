@@ -7,7 +7,7 @@ remote_name=${2} # origin
 main_branch=${3} # main
 target_branch=${4} # gh-pages
 build_dir=${5} # dist
-target_dir=${6:-GITHUB_WORKSPACE} # GitHub workspace root
+target_dir=${6:-$GITHUB_WORKSPACE} # GitHub workspace root
 
 echo "Repo: ${GITHUB_REPOSITORY}"
 echo "Workspace: ${GITHUB_WORKSPACE}"
