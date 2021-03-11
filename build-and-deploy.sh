@@ -22,18 +22,20 @@ cd "${GITHUB_WORKSPACE}"
 git config user.name "${GITHUB_ACTOR}"
 git config user.email "${GITHUB_ACTOR}@bots.github.com"
 
-if [ "${target_dir}" = "${GITHUB_WORKSPACE}" && "${target_branch}" = "gh-pages" ]; then
-  # Only push subtree if we're on gh-pages
-  echo "gh-pages, pushing subtree..."
-  # git checkout "${main_branch}"
-  yarn --frozen-lockfile
-  yarn build
+if [ "${target_dir}" = "${GITHUB_WORKSPACE}" ]; then
+  if [ "${target_branch}" = "gh-pages" ]; then
+    # Only push subtree if we're on gh-pages
+    echo "gh-pages, pushing subtree..."
+    # git checkout "${main_branch}"
+    yarn --frozen-lockfile
+    yarn build
 
-  git remote set-url "${remote_name}" "${repo_uri}"
-  git push "${remote_name}" `git subtree split --prefix ${build_dir}`:gh-pages --force
-  # git subtree push --prefix "${build_dir}" origin gh-pages
-  echo 'Pushed subtree, exiting...'
-  exit 0
+    git remote set-url "${remote_name}" "${repo_uri}"
+    git push "${remote_name}" `git subtree split --prefix ${build_dir}`:gh-pages --force
+    # git subtree push --prefix "${build_dir}" origin gh-pages
+    echo 'Pushed subtree, exiting...'
+    exit 0
+  fi
 fi
 
 git checkout "${target_branch}"
