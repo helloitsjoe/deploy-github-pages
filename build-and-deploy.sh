@@ -30,8 +30,7 @@ yarn build
 if [ "${target_branch}" = "gh-pages" ]; then
   if [ "${build_dir}" != "${target_dir}" ]; then
     echo "Replacing contents of ${target_dir} with ${build_dir}"
-    shopt -s extglob
-    echo rm -v !("${target_dir}")
+    find "${target_dir}" -type d -not -name "${build_dir}" -delete
     mv -v "${build_dir}/"* "${target_dir}/"
   fi
 fi
