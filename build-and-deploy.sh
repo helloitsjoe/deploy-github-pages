@@ -33,7 +33,8 @@ if [ "${build_dir}" != "${target_dir}" ]; then
     if [ "${target_branch}" = "gh-pages" ]; then
       echo "gh-pages, pushing subtree..."
       git checkout "${main_branch}"
-      git subtree push --prefix "${build_dir}" origin gh-pages
+      # git subtree push --prefix "${build_dir}" origin gh-pages
+      git push origin `git subtree split --prefix "${build_dir}"`:gh-pages --force
       echo 'Pushed subtree, exiting...'
       exit 0
     else
