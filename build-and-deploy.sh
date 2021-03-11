@@ -12,6 +12,7 @@ target_dir=${6:-$GITHUB_WORKSPACE} # GitHub workspace root
 echo "Repo: ${GITHUB_REPOSITORY}"
 echo "Workspace: ${GITHUB_WORKSPACE}"
 echo "Actor: ${GITHUB_ACTOR}"
+echo "Build dir: ${build_dir}"
 echo "Target dir: ${target_dir}"
 
 repo_uri="https://x-access-token:${github_token}@github.com/${GITHUB_REPOSITORY}.git"
@@ -33,8 +34,9 @@ if [ "${build_dir}" != "${target_dir}" ]; then
     if [ "${target_branch}" = "gh-pages" ]; then
       echo "gh-pages, pushing subtree..."
       git checkout "${main_branch}"
+      git remote set-url "${remote_name}" "${repo_uri}"
+      git push "${remote_name}" `git subtree split --prefix ${build_dir}`:gh-pages --force
       # git subtree push --prefix "${build_dir}" origin gh-pages
-      git push origin `git subtree split --prefix "${build_dir}"`:gh-pages --force
       echo 'Pushed subtree, exiting...'
       exit 0
     else
