@@ -27,10 +27,13 @@ git rebase "${remote_name}/${main_branch}"
 yarn --frozen-lockfile
 yarn build
 
-if [ "${target_branch}" = "gh-pages" ]; then
-  if [ "${build_dir}" != "${target_dir}" ]; then
+if [ "${build_dir}" != "${target_dir}" ]; then
+  if [ "${target_branch}" = "gh-pages" ]; then
     echo "Moving contents of ${build_dir} to ${target_dir}"
     mv -v "${build_dir}/"* "${target_dir}/"
+  else
+    echo "Renaming ${build_dir} to ${target_dir}"
+    mv -v "${build_dir}" "${target_dir}"
   fi
 fi
 
