@@ -27,8 +27,8 @@ git rebase "${remote_name}/${main_branch}"
 yarn --frozen-lockfile
 yarn build
 
-if [[ "${build_dir}" -ne "${target_dir}"]]; then
-    cp -r "${build_dir}" "${target_dir}"
+if [[ "${build_dir}" -ne "${target_dir}" ]]; then
+    cp -r "${build_dir}/*" "${target_dir}"
 fi
 
 git add "${target_dir}"
