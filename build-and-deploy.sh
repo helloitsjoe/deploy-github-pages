@@ -30,6 +30,15 @@ if [ "${target_dir}" = "${GITHUB_WORKSPACE}" ]; then
     yarn --frozen-lockfile
     yarn build
 
+    set +e
+    git status
+    git commit -m "Deploy :robot:"
+    if [ $? -ne 0 ]; then
+      echo "Exiting"
+      exit 0
+    fi
+    set -e
+
     git remote set-url "${remote_name}" "${repo_uri}"
     git push "${remote_name}" `git subtree split --prefix ${build_dir}`:gh-pages --force
     # git subtree push --prefix "${build_dir}" origin gh-pages
