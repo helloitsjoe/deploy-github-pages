@@ -35,6 +35,8 @@ if [ "${build_dir}" != "${target_dir}" ]; then
     echo "Renaming ${build_dir} to ${target_dir}"
     mv -v "${build_dir}" "${target_dir}"
   fi
+else
+  echo "Build and target dirs are the same, continuing..."
 fi
 
 git add "${target_dir}"
