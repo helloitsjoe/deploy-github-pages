@@ -30,6 +30,9 @@ if [ "${target_dir}" = "${GITHUB_WORKSPACE}" ]; then
     yarn --frozen-lockfile
     yarn build
 
+    echo 'Staging changes...'
+    git add "${target_dir}"
+
     set +e
     git status
     git commit -m "Deploy :robot:"
