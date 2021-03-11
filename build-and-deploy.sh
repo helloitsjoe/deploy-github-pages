@@ -33,7 +33,7 @@ if [ "${build_dir}" != "${target_dir}" ]; then
     # Only push subtree if we're on gh-pages
     if [ "${target_branch}" = "gh-pages" ]; then
       echo "gh-pages, pushing subtree..."
-      git checkout "${main_branch}"
+      # git checkout "${main_branch}"
       git remote set-url "${remote_name}" "${repo_uri}"
       git push "${remote_name}" `git subtree split --prefix ${build_dir}`:gh-pages --force
       # git subtree push --prefix "${build_dir}" origin gh-pages
