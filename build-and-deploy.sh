@@ -27,7 +27,9 @@ git rebase "${remote_name}/${main_branch}"
 yarn --frozen-lockfile
 yarn build
 
-if [ "${build_dir}" -ne "${target_dir}" ]; then
+echo "${build_dir}" "${target_dir}"
+if [ "${build_dir}" != "${target_dir}" ]; then
+    echo "Dirs not equal, copying contents of ${build_dir} to ${target_dir}"
     cp -r "${build_dir}/*" "${target_dir}"
 fi
 
