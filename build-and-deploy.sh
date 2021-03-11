@@ -27,10 +27,11 @@ git rebase "${remote_name}/${main_branch}"
 yarn --frozen-lockfile
 yarn build
 
-echo "${build_dir}" "${target_dir}"
-if [ "${build_dir}" != "${target_dir}" ]; then
+if [ "${target_branch}" = "gh-pages" ]; then
+  if [ "${build_dir}" != "${target_dir}" ]; then
     echo "Replacing contents of ${target_dir} to ${build_dir}"
-    mv -f "${build_dir}" "${target_dir}"
+    mv -v "${build_dir}/*" "${target_dir}/"
+  fi
 fi
 
 git add "${target_dir}"
@@ -39,8 +40,8 @@ set +e
 git status
 git commit -m "Deploy :robot:"
 if [ $? -ne 0 ]; then
-    echo "Exiting"
-    exit 0
+  echo "Exiting"
+  exit 0
 fi
 set -e
 
