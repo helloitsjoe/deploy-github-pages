@@ -27,10 +27,13 @@ git rebase "${remote_name}/${main_branch}"
 yarn --frozen-lockfile
 yarn build
 
+ls -l
+
 if [ "${target_branch}" = "gh-pages" ]; then
   if [ "${build_dir}" != "${target_dir}" ]; then
     echo "Replacing contents of ${target_dir} to ${build_dir}"
-    mv -v "./${build_dir}/*" "${target_dir}/"
+    ls -l "${build_dir}"
+    mv -v "${build_dir}/"* "${target_dir}/"
   fi
 fi
 
