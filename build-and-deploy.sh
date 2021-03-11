@@ -31,8 +31,8 @@ if [ "${build_dir}" != "${target_dir}" ]; then
   if [ "${target_dir}" = "${GITHUB_WORKSPACE}" ]; then
     # Only push subtree if we're on gh-pages
     if [ "${target_branch}" = "gh-pages" ]; then
-      # TODO: Test this
       echo "gh-pages, pushing subtree..."
+      git checkout "${main_branch}"
       git subtree push --prefix "${build_dir}" origin gh-pages
       echo 'Pushed subtree, exiting...'
       exit 0
