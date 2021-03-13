@@ -35,7 +35,7 @@ if [ "${target_dir}" = "${GITHUB_WORKSPACE}" ]; then
 
     set +e
     git status
-    git commit -m "Deploy :robot:"
+    git commit -m "Deploy :rocket:"
     if [ $? -ne 0 ]; then
       echo "Exiting"
       exit 0
@@ -73,7 +73,7 @@ git add "${target_dir}"
 
 set +e
 git status
-git commit -m "Deploy :robot:"
+git commit -m "Deploy :rocket:"
 if [ $? -ne 0 ]; then
   echo "Exiting"
   exit 0
