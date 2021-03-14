@@ -2,16 +2,11 @@
 
 set -Ceuo pipefail
 
-# github_token=${1}
-# remote_name=${2} # origin
-# main_branch=${3} # main
-# target_branch=${4} # gh-pages
-# build_dir=${5} # dist
-# target_dir=${6:-$GITHUB_WORKSPACE} # GitHub workspace root
 if [ "${TARGET_DIR+x}" = "x" ]; then
   TARGET_DIR="${GITHUB_WORKSPACE}"
 fi
-echo TARGET_DIR
+
+REPO_URI="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
 echo "Repo: ${GITHUB_REPOSITORY}"
 echo "Workspace: ${GITHUB_WORKSPACE}"
@@ -19,9 +14,7 @@ echo "Actor: ${GITHUB_ACTOR}"
 echo "Build dir: ${BUILD_DIR}"
 echo "Target dir: ${TARGET_DIR}"
 
-repo_uri="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-
-# cd "${GITHUB_WORKSPACE}"
+cd "${GITHUB_WORKSPACE}"
 
 git config user.name "${GITHUB_ACTOR}"
 git config user.email "${GITHUB_ACTOR}@bots.github.com"
