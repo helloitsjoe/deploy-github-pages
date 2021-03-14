@@ -6,7 +6,7 @@ if [ "${TARGET_DIR+x}" = "x" ]; then
   TARGET_DIR="${GITHUB_WORKSPACE}"
 fi
 
-REPO_URI="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+# REPO_URI="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
 echo "Repo: ${GITHUB_REPOSITORY}"
 echo "Workspace: ${GITHUB_WORKSPACE}"
@@ -39,7 +39,7 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
     fi
     set -e
 
-    git remote set-url "${REMOTE_NAME}" "${REPO_URI}"
+    # git remote set-url "${REMOTE_NAME}" "${REPO_URI}"
     git push "${REMOTE_NAME}" `git subtree split --prefix ${BUILD_DIR}`:gh-pages --force
     # git subtree push --prefix "${build_dir}" origin gh-pages
     echo 'Pushed subtree, exiting...'
@@ -77,5 +77,5 @@ if [ $? -ne 0 ]; then
 fi
 set -e
 
-git remote set-url "${REMOTE_NAME}" "${REPO_URI}"
+# git remote set-url "${REMOTE_NAME}" "${REPO_URI}"
 git push --force-with-lease "${REMOTE_NAME}" "${TARGET_BRANCH}"

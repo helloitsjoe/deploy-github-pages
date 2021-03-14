@@ -28,7 +28,7 @@ runs:
   using: docker
   image: Dockerfile
   env:
-    GITHUB_TOKEN: ${{ inputs.github_token }}
+    # GITHUB_TOKEN: ${{ inputs.github_token }}
     REMOTE_NAME: ${{ inputs.remote_name }}
     MAIN_BRANCH: ${{ inputs.main_branch }}
     TARGET_BRANCH: ${{ inputs.target_branch }}
