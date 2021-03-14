@@ -8,7 +8,9 @@ set -Ceuo pipefail
 # target_branch=${4} # gh-pages
 # build_dir=${5} # dist
 # target_dir=${6:-$GITHUB_WORKSPACE} # GitHub workspace root
-TARGET_DIR="${TARGET_DIR:-GITHUB_WORKSPACE}"
+if [ -z "${TARGET_DIR}" ]; then
+  TARGET_DIR="${GITHUB_WORKSPACE}"
+fi
 echo TARGET_DIR
 
 echo "Repo: ${GITHUB_REPOSITORY}"
