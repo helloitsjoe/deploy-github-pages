@@ -2,6 +2,8 @@
 
 set -Ceuo pipefail
 
+echo "input TARGET_DIR: ${TARGET_DIR}"
+
 if [ "${TARGET_DIR+x}" = "x" ]; then
   TARGET_DIR="${GITHUB_WORKSPACE}"
 fi
@@ -11,6 +13,8 @@ fi
 echo "Repo: ${GITHUB_REPOSITORY}"
 echo "Workspace: ${GITHUB_WORKSPACE}"
 echo "Actor: ${GITHUB_ACTOR}"
+echo "Main branch: ${MAIN_BRANCH}"
+echo "Target branch: ${TARGET_BRANCH}"
 echo "Build dir: ${BUILD_DIR}"
 echo "Target dir: ${TARGET_DIR}"
 
