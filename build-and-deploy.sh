@@ -4,7 +4,8 @@ set -Ceuo pipefail
 
 echo "input TARGET_DIR: ${TARGET_DIR}"
 
-if [ "${TARGET_DIR+x}" = "x" ]; then
+if [ -z "${TARGET_DIR}" ]; then
+  echo "TARGET_DIR not defined, using ${GITHUB_WORKSPACE}"
   TARGET_DIR="${GITHUB_WORKSPACE}"
 fi
 
