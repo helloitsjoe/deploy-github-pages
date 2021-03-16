@@ -50,17 +50,19 @@ fi
 git checkout "${TARGET_BRANCH}"
 git rebase "${REMOTE_NAME}/${MAIN_BRANCH}"
 
+# TODO: Remove this to cache node_modules
 yarn --frozen-lockfile
 yarn build
 
 if [ "${BUILD_DIR}" != "${TARGET_DIR}" ]; then
-  if [ "${TARGET_DIR}" = "${GITHUB_WORKSPACE}" ]; then
-    echo "Moving contents of ${BUILD_DIR} to ${TARGET_DIR}"
-    mv -v "${BUILD_DIR}/"* "${TARGET_DIR}/"
-  else
-    echo "Renaming ${BUILD_DIR} to ${TARGET_DIR}"
-    mv -v "${BUILD_DIR}" "${TARGET_DIR}"
-  fi
+  # Disabling this - don't put built code in root
+  # if [ "${TARGET_DIR}" = "${GITHUB_WORKSPACE}" ]; then
+  #   echo "Moving contents of ${BUILD_DIR} to ${TARGET_DIR}"
+  #   mv -v "${BUILD_DIR}/"* "${TARGET_DIR}/"
+  # else
+  echo "Renaming ${BUILD_DIR} to ${TARGET_DIR}"
+  mv -v "${BUILD_DIR}" "${TARGET_DIR}"
+  # fi
 else
   echo "Build and target dirs are the same, continuing..."
 fi
