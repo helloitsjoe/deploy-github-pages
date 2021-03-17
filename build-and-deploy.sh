@@ -9,11 +9,10 @@ if [ -z "${TARGET_DIR}" ]; then
   TARGET_DIR="${GITHUB_WORKSPACE}"
 fi
 
+# Looks like auth was needed previously, doesn't seem to be anymore
 # REPO_URI="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
-echo "Repo: ${GITHUB_REPOSITORY}"
 echo "Workspace: ${GITHUB_WORKSPACE}"
-echo "Actor: ${GITHUB_ACTOR}"
 echo "Main branch: ${MAIN_BRANCH}"
 echo "Target branch: ${TARGET_BRANCH}"
 echo "Build dir: ${BUILD_DIR}"
@@ -24,11 +23,11 @@ cd "${GITHUB_WORKSPACE}"
 git config user.name "${GITHUB_ACTOR}"
 git config user.email "${GITHUB_ACTOR}@bots.github.com"
 
+# TODO: clean this up by integrating below
 if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
   if [ "${TARGET_DIR}" = "${GITHUB_WORKSPACE}" ]; then
     # Only push subtree if we're on gh-pages
     echo "gh-pages, pushing subtree..."
-    # git checkout "${main_branch}"
     yarn --frozen-lockfile
     yarn build
 
@@ -44,7 +43,6 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
     fi
     set -e
 
-    # git remote set-url "${REMOTE_NAME}" "${REPO_URI}"
     git push "${REMOTE_NAME}" `git subtree split --prefix ${BUILD_DIR}`:gh-pages --force
     # git subtree push --prefix "${build_dir}" origin gh-pages
     echo 'Pushed subtree, exiting...'
@@ -55,7 +53,7 @@ fi
 git checkout "${TARGET_BRANCH}"
 git rebase "${REMOTE_NAME}/${MAIN_BRANCH}"
 
-# TODO: Remove this to cache node_modules
+# Don't think an extra `yarn` does any harm here if we use yarn cache in pipeline
 yarn --frozen-lockfile
 yarn build
 
@@ -84,5 +82,4 @@ if [ $? -ne 0 ]; then
 fi
 set -e
 
-# git remote set-url "${REMOTE_NAME}" "${REPO_URI}"
 git push --force-with-lease "${REMOTE_NAME}" "${TARGET_BRANCH}"
