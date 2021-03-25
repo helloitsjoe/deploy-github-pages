@@ -37,7 +37,7 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
 
     echo 'Staging changes...'
     git add "${TARGET_DIR}"
-
+    ls
     set +e
     git status
     git commit -m "Deploy :rocket:"
