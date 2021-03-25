@@ -31,6 +31,10 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
     yarn --frozen-lockfile
     yarn build
 
+    # rename dir to allow including build dir in .gitignore
+    # (so build dir can be ignored in main branch)
+    mv "${BUILD_DIR}" tmp_deploy
+
     echo 'Staging changes...'
     git add "${TARGET_DIR}"
 
@@ -43,8 +47,7 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
     fi
     set -e
 
-    git push "${REMOTE_NAME}" `git subtree split --prefix ${BUILD_DIR}`:gh-pages --force
-    # git subtree push --prefix "${build_dir}" origin gh-pages
+    git push "${REMOTE_NAME}" `git subtree split --prefix tmp_deploy`:gh-pages --force
     echo 'Pushed subtree, exiting...'
     exit 0
   fi
