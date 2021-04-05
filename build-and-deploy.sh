@@ -17,6 +17,7 @@ echo "Main branch: ${MAIN_BRANCH}"
 echo "Target branch: ${TARGET_BRANCH}"
 echo "Build dir: ${BUILD_DIR}"
 echo "Target dir: ${TARGET_DIR}"
+echo "Use hash: ${USE_HASH}"
 
 cd "${GITHUB_WORKSPACE}"
 
@@ -26,6 +27,7 @@ git config user.email "${GITHUB_ACTOR}@bots.github.com"
 if [[ $(git branch | grep -w "${TARGET_BRANCH}") ]]; then
   echo 'Branch exists, continuing...'
 else
+  echo 'Target branch does not exist, creating...'
   git checkout -b "${TARGET_BRANCH}"
   git push -u origin "${TARGET_BRANCH}"
 fi
@@ -59,6 +61,10 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
     exit 0
   fi
 fi
+
+echo "Target branch is ${TARGET_BRANCH}"
+echo "Target dir is ${TARGET_DIR}"
+echo "Checking out branch..."
 
 git checkout "${TARGET_BRANCH}"
 git rebase "${REMOTE_NAME}/${MAIN_BRANCH}"
