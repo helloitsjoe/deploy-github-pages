@@ -24,7 +24,10 @@ cd "${GITHUB_WORKSPACE}"
 git config user.name "${GITHUB_ACTOR}"
 git config user.email "${GITHUB_ACTOR}@bots.github.com"
 
-if [[ $(git branch --remote | grep -w "${TARGET_BRANCH}") ]]; then
+branch_exists=$(git branch --remote | grep -w "${TARGET_BRANCH}")
+echo "Branch exists: ${branch_exists}"
+
+if [[ $branch_exists ]]; then
   echo 'Branch exists, continuing...'
 else
   echo 'Target branch does not exist, creating...'
