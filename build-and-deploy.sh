@@ -40,7 +40,7 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
     yarn --frozen-lockfile
     yarn build
 
-    if [ "${USE_HASH}"]; then
+    if [ "${USE_HASH}" ]; then
       git checkout "${TARGET_BRANCH}"
       git pull --rebase
       hash=$(git rev-parse --short HEAD)
