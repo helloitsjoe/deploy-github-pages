@@ -41,10 +41,12 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
     yarn build
 
     if [ "${USE_HASH}" ]; then
+      hash=$(git rev-parse --short HEAD)
+      echo "Hash: $hash"
+      mv "${BUILD_DIR}" $hash
+      git pull "${TARGET_BRANCH}"
       git checkout "${TARGET_BRANCH}"
       git pull --rebase
-      hash=$(git rev-parse --short HEAD)
-      mv "${BUILD_DIR}" $hash
       git add $hash
       git commit -m "Deploy with hash: $hash :rocket:"
       git push
