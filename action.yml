@@ -23,6 +23,9 @@ inputs:
   target_dir:
     description: Directory where built files will be published
     required: false
+  use_hash:
+    description: Whether the commit hash should be used in the deploy path
+    required: false
 
 runs:
   using: docker
@@ -34,6 +37,7 @@ runs:
     TARGET_BRANCH: ${{ inputs.target_branch }}
     BUILD_DIR: ${{ inputs.build_dir }}
     TARGET_DIR: ${{ inputs.target_dir }}
+    USE_HASH: ${{ inputs.use_hash }}
   # args:
   #   - ${{ inputs.github_token }}
   #   - ${{ inputs.remote_name }}
