@@ -40,6 +40,18 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
     yarn --frozen-lockfile
     yarn build
 
+    if [ "${USE_HASH}"]; then
+      git checkout "${TARGET_BRANCH}"
+      git pull --rebase
+      hash=$(git rev-parse --short HEAD)
+      mv "${BUILD_DIR}" $hash
+      git add $hash
+      git commit -m "Deploy with hash: $hash :rocket:"
+      git push
+      echo 'Pushed hash directory, exiting...'
+      exit 0;
+    fi
+
     # rename dir to allow including build dir in .gitignore
     # (so build dir can be ignored in main branch)
     mv "${BUILD_DIR}" tmp_deploy
