@@ -43,12 +43,12 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
     if [ "${USE_HASH}" ]; then
       hash=$(git rev-parse --short HEAD)
       echo "Hash: $hash"
-      mv "${BUILD_DIR}" $hash
+      mv "${BUILD_DIR}" "branch-$hash"
       git fetch
       git checkout "${TARGET_BRANCH}"
       git pull --rebase
       git add $hash
-      git commit -m "Deploy with hash: $hash :rocket:"
+      git commit -m "Deploy with branch-$hash :rocket:"
       git push
       echo 'Pushed hash directory, exiting...'
       exit 0;
