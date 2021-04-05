@@ -44,7 +44,7 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
       hash=$(git rev-parse --short HEAD)
       echo "Hash: $hash"
       mv "${BUILD_DIR}" $hash
-      git pull "${TARGET_BRANCH}"
+      git fetch
       git checkout "${TARGET_BRANCH}"
       git pull --rebase
       git add $hash
