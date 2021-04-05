@@ -24,12 +24,7 @@ cd "${GITHUB_WORKSPACE}"
 git config user.name "${GITHUB_ACTOR}"
 git config user.email "${GITHUB_ACTOR}@bots.github.com"
 
-# set +e
-branch_exists=$(git ls-remote --heads origin "${TARGET_BRANCH}")
-echo "Branch exists: ${branch_exists}"
-# set -e
-
-if [[ $branch_exists ]]; then
+if [[ $(git ls-remote --heads origin "${TARGET_BRANCH}") ]]; then
   echo 'Branch exists, continuing...'
 else
   echo 'Target branch does not exist, creating...'
