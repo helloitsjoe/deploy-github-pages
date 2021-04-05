@@ -23,6 +23,13 @@ cd "${GITHUB_WORKSPACE}"
 git config user.name "${GITHUB_ACTOR}"
 git config user.email "${GITHUB_ACTOR}@bots.github.com"
 
+if [[ $(git branch | grep -w "${TARGET_BRANCH}") ]]; then
+  echo 'Branch exists, continuing...'
+else
+  git checkout -b "${TARGET_BRANCH}"
+  git push -u origin "${TARGET_BRANCH}"
+fi
+
 # TODO: clean this up by integrating below
 if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
   if [ "${TARGET_DIR}" = "${GITHUB_WORKSPACE}" ]; then

@@ -16,8 +16,8 @@ jobs:
       - name: Deploy
         id: deploy
         uses: ./
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+        # with:
+          # github_token: ${{ secrets.GITHUB_TOKEN }}
           # target_branch: main
           # build_dir: dist
           # target_dir: docs
