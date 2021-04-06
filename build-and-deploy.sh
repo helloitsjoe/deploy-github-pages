@@ -56,7 +56,7 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
       mv "tmp_${branch_name_with_prefix}" "${branch_name_with_prefix}"
 
       git add "${branch_name_with_prefix}"
-      git commit -m "Deploy with ${branch_name_with_prefix} :rocket:"
+      git commit -m "Deploy to /${branch_name_with_prefix} :rocket:"
       git push
       echo 'Pushed hash directory, exiting...'
       exit 0;
