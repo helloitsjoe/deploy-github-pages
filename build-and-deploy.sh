@@ -46,10 +46,10 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
       git checkout "${TARGET_BRANCH}"
       git pull --rebase
 
-      branch_name=$(git branch --show-current)
+      branch_name=$(git name-rev --name-only HEAD | sed 's/remotes\/origin\///g')
       branch_name_with_prefix="branch-$branch_name"
-      echo "Hash: $branch_name_with_prefix"
       mv "${BUILD_DIR}" "${branch_name_with_prefix}"
+      echo "Deploying to directory: $branch_name_with_prefix"
 
       git add "${branch_name_with_prefix}"
       git commit -m "Deploy with ${branch_name_with_prefix} :rocket:"
