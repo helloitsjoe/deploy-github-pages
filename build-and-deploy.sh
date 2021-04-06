@@ -52,6 +52,7 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
       git pull --rebase
 
       echo "Overwriting old branch folder if it exists..."
+      rm -rf "${branch_name_with_prefix}"
       mv "tmp_${branch_name_with_prefix}" "${branch_name_with_prefix}"
 
       git add "${branch_name_with_prefix}"
