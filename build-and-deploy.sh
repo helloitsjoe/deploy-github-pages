@@ -45,11 +45,15 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
       branch_name=$(git name-rev --name-only HEAD | sed 's/remotes\/origin\///g')
       branch_name_with_prefix="branch-$branch_name"
       echo "Deploying to directory: $branch_name_with_prefix"
-      mv "${BUILD_DIR}" "${branch_name_with_prefix}"
+      mv "${BUILD_DIR}" "tmp_${branch_name_with_prefix}"
 
       git fetch
       git checkout "${TARGET_BRANCH}"
       git pull --rebase
+
+      echo "Overwriting old branch folder if it exists..."
+      mv "tmp_${branch_name_with_prefix}" "${branch_name_with_prefix}"
+
       git add "${branch_name_with_prefix}"
       git commit -m "Deploy with ${branch_name_with_prefix} :rocket:"
       git push
