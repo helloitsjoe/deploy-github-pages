@@ -17,7 +17,7 @@ echo "Main branch: ${MAIN_BRANCH}"
 echo "Target branch: ${TARGET_BRANCH}"
 echo "Build dir: ${BUILD_DIR}"
 echo "Target dir: ${TARGET_DIR}"
-echo "Use hash: ${USE_HASH}"
+echo "Branch build: ${BRANCH_BUILD}"
 
 cd "${GITHUB_WORKSPACE}"
 
@@ -40,16 +40,19 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
     yarn --frozen-lockfile
     yarn build
 
-    if [ "${USE_HASH}" ]; then
-      hash=$(git rev-parse --short HEAD)
-      branch_hash="branch-$hash"
-      echo "Hash: $branch_hash"
-      mv "${BUILD_DIR}" "${branch_hash}"
+    # This works, but dir will be overwritten by main branch deploy
+    if [ "${BRANCH_BUILD}" ]; then
       git fetch
       git checkout "${TARGET_BRANCH}"
       git pull --rebase
-      git add "${branch_hash}"
-      git commit -m "Deploy with ${branch_hash} :rocket:"
+
+      branch_name=$(git branch --show-current)
+      branch_name_with_prefix="branch-$branch_name"
+      echo "Hash: $branch_name_with_prefix"
+      mv "${BUILD_DIR}" "${branch_name_with_prefix}"
+
+      git add "${branch_name_with_prefix}"
+      git commit -m "Deploy with ${branch_name_with_prefix} :rocket:"
       git push
       echo 'Pushed hash directory, exiting...'
       exit 0;
@@ -77,8 +80,6 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
   fi
 fi
 
-echo "Target branch is ${TARGET_BRANCH}"
-echo "Target dir is ${TARGET_DIR}"
 echo "Checking out branch..."
 
 git checkout "${TARGET_BRANCH}"
