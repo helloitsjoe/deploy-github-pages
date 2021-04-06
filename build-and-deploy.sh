@@ -42,15 +42,14 @@ if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
 
     # This works, but dir will be overwritten by main branch deploy
     if [ "${BRANCH_BUILD}" ]; then
+      branch_name=$(git name-rev --name-only HEAD | sed 's/remotes\/origin\///g')
+      branch_name_with_prefix="branch-$branch_name"
+      echo "Deploying to directory: $branch_name_with_prefix"
+      mv "${BUILD_DIR}" "${branch_name_with_prefix}"
+
       git fetch
       git checkout "${TARGET_BRANCH}"
       git pull --rebase
-
-      branch_name=$(git name-rev --name-only HEAD | sed 's/remotes\/origin\///g')
-      branch_name_with_prefix="branch-$branch_name"
-      mv "${BUILD_DIR}" "${branch_name_with_prefix}"
-      echo "Deploying to directory: $branch_name_with_prefix"
-
       git add "${branch_name_with_prefix}"
       git commit -m "Deploy with ${branch_name_with_prefix} :rocket:"
       git push
