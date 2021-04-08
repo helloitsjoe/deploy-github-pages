@@ -29,7 +29,8 @@ The directory where built files will be deployed. **Default repo root**
 ### `branch_build`
 
 If `true`, the built files will be deployed to a subdirectory named with the
-branch name. **Default `false`**
+branch name. _Currently only works when `gh-pages` is the `target_branch`_
+**Default `false`**
 
 <!-- ### `github_token`
 
