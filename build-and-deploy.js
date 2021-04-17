@@ -27,10 +27,12 @@ process.chdir(GITHUB_WORKSPACE);
 execSync(`git config user.name ${GITHUB_ACTOR}`);
 execSync(`git config user.email ${GITHUB_ACTOR}@bots.github.com`);
 
-const targetBranch = execSync(`git ls-remote --heads origin ${TARGET_BRANCH}`);
+const targetBranch = execSync(`git ls-remote --heads origin ${TARGET_BRANCH}`, {
+  encoding: 'utf-8',
+});
 console.log(`targetBranch:`, targetBranch);
 
-if (targetBranchExists) {
+if (targetBranch) {
   console.log('Branch exists, continuing...');
 } else {
   console.log('Target branch does not exist, creating...');
