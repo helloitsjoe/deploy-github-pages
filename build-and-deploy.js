@@ -27,7 +27,10 @@ process.chdir(GITHUB_WORKSPACE);
 execSync(`git config user.name ${GITHUB_ACTOR}`);
 execSync(`git config user.email ${GITHUB_ACTOR}@bots.github.com`);
 
-if (execSync(`git ls-remote --heads origin ${TARGET_BRANCH}`)) {
+const targetBranch = execSync(`git ls-remote --heads origin ${TARGET_BRANCH}`);
+console.log(`targetBranch:`, targetBranch);
+
+if (targetBranchExists) {
   console.log('Branch exists, continuing...');
 } else {
   console.log('Target branch does not exist, creating...');
@@ -35,34 +38,46 @@ if (execSync(`git ls-remote --heads origin ${TARGET_BRANCH}`)) {
   execSync(`git push -u origin ${TARGET_BRANCH}`);
 }
 
+if (TARGET_BRANCH === 'gh-pages' && TARGET_DIR === GITHUB_WORKSPACE) {
+  // Only push subtree if we're on gh-pages
+  console.log('Deploying to gh-pages root...');
+  execSync('yarn --frozen-lockfile');
+  execSync('yarn build');
+
+  // This works, but dir will be overwritten by main branch deploy
+  if (BRANCH_BUILD) {
+    const branchName = execSync(
+      `git name-rev --name-only HEAD | sed 's/remotes\/origin\///g'`
+    );
+    const branchNameWithPrefix = `branch-${branchName}`;
+    console.log(`Deploying to directory: ${branchNameWithPrefix}`);
+    const tmpDir = `tmp_${branchNameWithPrefix}`;
+    execSync(`mv ${BUILD_DIR} ${tmpDir}`);
+
+    execSync(`git fetch`);
+    execSync(`git checkout ${TARGET_BRANCH}`);
+    execSync(`git pull --rebase`);
+
+    console.log('Overwriting old branch folder if it exists...');
+    execSync(`rm -rf ${branchNameWithPrefix}`);
+    execSync(`mv ${tmpDir} ${branchNameWithPrefix}`);
+
+    execSync(`git add ${branchNameWithPrefix}`);
+    execSync(`git commit -m "Deploy to ${branchNameWithPrefix} :rocket:`);
+    execSync(`git push`);
+    console.log('Pushed hash directory, exiting...');
+    process.exit(0);
+  }
+}
+
 // # TODO: clean this up by integrating below
 // if [ "${TARGET_BRANCH}" = "gh-pages" ]; then
 //   if [ "${TARGET_DIR}" = "${GITHUB_WORKSPACE}" ]; then
-//     # Only push subtree if we're on gh-pages
-//     echo "gh-pages, pushing subtree..."
-//     yarn --frozen-lockfile
-//     yarn build
+//     done
 
 //     # This works, but dir will be overwritten by main branch deploy
 //     if [ "${BRANCH_BUILD}" ]; then
-//       branch_name=$(git name-rev --name-only HEAD | sed 's/remotes\/origin\///g')
-//       branch_name_with_prefix="branch-$branch_name"
-//       echo "Deploying to directory: $branch_name_with_prefix"
-//       mv "${BUILD_DIR}" "tmp_${branch_name_with_prefix}"
-
-//       git fetch
-//       git checkout "${TARGET_BRANCH}"
-//       git pull --rebase
-
-//       echo "Overwriting old branch folder if it exists..."
-//       rm -rf "${branch_name_with_prefix}"
-//       mv "tmp_${branch_name_with_prefix}" "${branch_name_with_prefix}"
-
-//       git add "${branch_name_with_prefix}"
-//       git commit -m "Deploy to /${branch_name_with_prefix} :rocket:"
-//       git push
-//       echo 'Pushed hash directory, exiting...'
-//       exit 0;
+//       done
 //     fi
 
 //     # rename dir to allow including build dir in .gitignore
