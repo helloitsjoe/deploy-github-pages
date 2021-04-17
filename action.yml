@@ -28,20 +28,13 @@ inputs:
     required: false
 
 runs:
-  using: docker
-  image: Dockerfile
-  env:
-    # GITHUB_TOKEN: ${{ inputs.github_token }}
-    REMOTE_NAME: ${{ inputs.remote_name }}
-    MAIN_BRANCH: ${{ inputs.main_branch }}
-    TARGET_BRANCH: ${{ inputs.target_branch }}
-    BUILD_DIR: ${{ inputs.build_dir }}
-    TARGET_DIR: ${{ inputs.target_dir }}
-    BRANCH_BUILD: ${{ inputs.branch_build }}
-  # args:
-  #   - ${{ inputs.github_token }}
-  #   - ${{ inputs.remote_name }}
-  #   - ${{ inputs.main_branch }}
-  #   - ${{ inputs.target_branch }}
-  #   - ${{ inputs.build_dir }}
-  #   - ${{ inputs.target_dir }}
+  using: node12
+  main: build-and-deploy.js
+  # env:
+  #   # GITHUB_TOKEN: ${{ inputs.github_token }}
+  #   REMOTE_NAME: ${{ inputs.remote_name }}
+  #   MAIN_BRANCH: ${{ inputs.main_branch }}
+  #   TARGET_BRANCH: ${{ inputs.target_branch }}
+  #   BUILD_DIR: ${{ inputs.build_dir }}
+  #   TARGET_DIR: ${{ inputs.target_dir }}
+  #   BRANCH_BUILD: ${{ inputs.branch_build }}
