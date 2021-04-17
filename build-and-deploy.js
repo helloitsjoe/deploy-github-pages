@@ -1,11 +1,4 @@
-const fs = require('fs');
-// const core = require('@actions/core');
-// const gh = require('@actions/github');
-
-// console.log(`process.env:`, process.env);
-
-// console.log(`gh:`, gh);
-// console.log(`context:`, gh.getOctokit());
+const cp = require('child_process');
 
 const {
   GITHUB_WORKSPACE,
@@ -31,7 +24,9 @@ console.log(`Build dir: ${BUILD_DIR}`);
 console.log(`Target dir: ${TARGET_DIR}`);
 console.log(`Branch build: ${BRANCH_BUILD}`);
 
+console.log('cwd', process.cwd());
 process.chdir(GITHUB_WORKSPACE);
+console.log('cwd', process.cwd());
 
-fs.execSync(`git config user.name ${GITHUB_ACTOR}`);
-fs.execSync(`git config user.email ${GITHUB_ACTOR}@bots.github.com`);
+cp.execSync(`git config user.name ${GITHUB_ACTOR}`);
+cp.execSync(`git config user.email ${GITHUB_ACTOR}@bots.github.com`);
