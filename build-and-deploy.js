@@ -1,19 +1,22 @@
-const core = require('@actions/core');
-const gh = require('@actions/github');
+// const core = require('@actions/core');
+// const gh = require('@actions/github');
 
-console.log(`process.env:`, process.env);
+// console.log(`process.env:`, process.env);
 
-console.log(`gh:`, gh);
-console.log(`context:`, gh.getOctokit());
+// console.log(`gh:`, gh);
+// console.log(`context:`, gh.getOctokit());
 
-const GITHUB_WORKSPACE = 'foo';
-const TARGET_DIR = core.getInput('target_dir') || GITHUB_WORKSPACE;
-const MAIN_BRANCH = core.getInput('main_branch');
-const TARGET_BRANCH = core.getInput('target_branch');
-const BUILD_DIR = core.getInput('build_dir');
-const BRANCH_BUILD = core.getInput('branch_build');
+const {
+  GITHUB_WORKSPACE,
+  GITHUB_ACTOR,
+  INPUT_TARGET_DIR,
+  INPUT_MAIN_BRANCH: MAIN_BRANCH,
+  INPUT_TARGET_BRANCH: TARGET_BRANCH,
+  INPUT_BUILD_DIR: BUILD_DIR,
+  INPUT_BRANCH_BUILD: BRANCH_BUILD,
+} = process.env;
 
-// const GITHUB_ACTOR
+const TARGET_DIR = INPUT_TARGET_DIR || GITHUB_WORKSPACE;
 
 console.log(`TARGET_DIR: ${TARGET_DIR}`);
 
@@ -29,5 +32,5 @@ console.log(`Branch build: ${BRANCH_BUILD}`);
 
 process.chdir(GITHUB_WORKSPACE);
 
-// fs.execSync(`git config user.name ${GITHUB_ACTOR}`);
-// fs.execSync(`git config user.email ${GITHUB_ACTOR}@bots.github.com`);
+fs.execSync(`git config user.name ${GITHUB_ACTOR}`);
+fs.execSync(`git config user.email ${GITHUB_ACTOR}@bots.github.com`);
