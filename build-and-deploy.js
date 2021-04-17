@@ -1,8 +1,17 @@
 const core = require('@actions/core');
 const gh = require('@actions/github');
 
-const GITHUB_WORKSPACE = core.getInput('target_dir');
+console.log(`gh:`, gh);
+console.log(`context:`, gh.context);
+
+const GITHUB_WORKSPACE = 'foo'
 const TARGET_DIR = core.getInput('target_dir') || GITHUB_WORKSPACE;
+const MAIN_BRANCH = core.getInput('main_branch');
+const TARGET_BRANCH = core.getInput('target_branch');
+const BUILD_DIR = core.getInput('build_dir');
+const BRANCH_BUILD = core.getInput('branch_build');
+
+const GITHUB_ACTOR
 
 console.log(`TARGET_DIR: ${TARGET_DIR}`);
 
