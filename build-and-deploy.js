@@ -52,7 +52,7 @@ if (TARGET_BRANCH === 'gh-pages' && TARGET_DIR === GITHUB_WORKSPACE) {
       `git name-rev --name-only HEAD | sed 's/remotes\\/origin\\///g'`,
       { encoding: 'utf-8' }
     ).trim();
-    console.log(`branchName:`, branchName);
+
     const branchNameWithPrefix = `branch-${branchName}`;
     console.log(`Deploying to directory: ${branchNameWithPrefix}`);
     const tmpDir = `tmp_${branchNameWithPrefix}`;
@@ -67,9 +67,9 @@ if (TARGET_BRANCH === 'gh-pages' && TARGET_DIR === GITHUB_WORKSPACE) {
     execSync(`mv ${tmpDir} ${branchNameWithPrefix}`);
 
     execSync(`git add ${branchNameWithPrefix}`);
-    execSync(`git commit -m "Deploy to ${branchNameWithPrefix} :rocket:`);
+    execSync(`git commit -m "Deploy to ${branchNameWithPrefix} :rocket:"`);
     execSync(`git push`);
-    console.log('Pushed hash directory, exiting...');
+    console.log('Pushed branch directory, exiting...');
     process.exit(0);
   }
 }
