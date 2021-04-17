@@ -1,8 +1,10 @@
 const core = require('@actions/core');
 const gh = require('@actions/github');
 
+console.log(`process.env:`, process.env);
+
 console.log(`gh:`, gh);
-console.log(`context:`, gh.context);
+console.log(`context:`, gh.getOctokit());
 
 const GITHUB_WORKSPACE = 'foo';
 const TARGET_DIR = core.getInput('target_dir') || GITHUB_WORKSPACE;
