@@ -8,6 +8,8 @@
     "build": "yarn clean && yarn public && webpack --mode development"
   },
   "dependencies": {
+    "@actions/core": "^1.2.7",
+    "@actions/github": "^4.0.0",
     "date-fns": "^2.19.0"
   },
   "devDependencies": {
