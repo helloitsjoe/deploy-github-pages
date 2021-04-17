@@ -49,7 +49,7 @@ if (TARGET_BRANCH === 'gh-pages' && TARGET_DIR === GITHUB_WORKSPACE) {
   // This works, but dir will be overwritten by main branch deploy
   if (BRANCH_BUILD) {
     const branchName = execSync(
-      `git name-rev --name-only HEAD | sed 's/remotes\/origin\///g'`
+      `git name-rev --name-only HEAD | sed 's/remotes\\/origin\\///g'`
     );
     const branchNameWithPrefix = `branch-${branchName}`;
     console.log(`Deploying to directory: ${branchNameWithPrefix}`);
