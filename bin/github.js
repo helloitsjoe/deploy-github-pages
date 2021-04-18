@@ -1,8 +1,8 @@
 const { execSync } = require('child_process');
 
-const setConfig = () => {
-  execSync(`git config user.name ${GITHUB_ACTOR}`);
-  execSync(`git config user.email ${GITHUB_ACTOR}@bots.github.com`);
+const setConfig = actor => {
+  execSync(`git config user.name ${actor}`);
+  execSync(`git config user.email ${actor}@bots.github.com`);
 };
 
 const branchExists = branch => {
