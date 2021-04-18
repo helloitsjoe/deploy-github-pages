@@ -42,19 +42,19 @@ const main = () => {
         `git name-rev --name-only HEAD | sed 's/remotes\\/origin\\///g'`
       ).trim();
 
-      const branchNameWithPrefix = `branch-${branchName}`;
-      const tmpDir = `tmp_${branchNameWithPrefix}`;
+      const branchWithPrefix = `branch-${branchName}`;
+      const tmpDir = `tmp_${branchWithPrefix}`;
       cmd(`mv ${BUILD_DIR} ${tmpDir}`);
 
       cmd(`git fetch`);
       cmd(`git checkout ${TARGET_BRANCH}`);
       cmd(`git pull --rebase`);
 
-      console.log('Overwriting old branch folder if it exists...');
-      cmd(`rm -rf ${branchNameWithPrefix}`);
-      cmd(`mv ${tmpDir} ${branchNameWithPrefix}`);
+      console.log(`Overwriting folder ${branchWithPrefix} if it exists...`);
+      cmd(`rm -rf ${branchWithPrefix}`);
+      cmd(`mv ${tmpDir} ${branchWithPrefix}`);
 
-      gh.addAndCommit({ dir: branchNameWithPrefix, isBranch: true });
+      gh.addAndCommit({ dir: branchWithPrefix, isBranch: true });
 
       cmd(`git push`);
       console.log('Pushed branch directory, exiting...');
