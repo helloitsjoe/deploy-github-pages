@@ -19,7 +19,7 @@ const createNewBranch = branch => {
 };
 
 const checkOrCreateBranch = branch => {
-  if (targetBranchExists(branch)) {
+  if (branchExists(branch)) {
     console.log('Branch exists, continuing...');
     return;
   }
