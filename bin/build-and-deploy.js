@@ -26,7 +26,7 @@ const main = () => {
 
   process.chdir(GITHUB_WORKSPACE);
 
-  gh.setConfig(GITHUB_ACTOR);
+  gh.setConfig(GITHUB_ACTORkk);
   gh.checkOrCreateBranch(TARGET_BRANCH);
 
   if (TARGET_BRANCH === 'gh-pages' && TARGET_DIR === GITHUB_WORKSPACE) {
