@@ -1,21 +1,19 @@
-const { execSync } = require('child_process');
+const { cmd } = require('./utils');
 
 const setConfig = actor => {
-  execSync(`git config user.name ${actor}`);
-  execSync(`git config user.email ${actor}@bots.github.com`);
+  cmd(`git config user.name ${actor}`);
+  cmd(`git config user.email ${actor}@bots.github.com`);
 };
 
 const branchExists = branch => {
-  const exists = execSync(`git ls-remote --heads origin ${branch}`, {
-    encoding: 'utf-8',
-  });
+  const exists = cmd(`git ls-remote --heads origin ${branch}`);
   console.log(`Branch exists:`, exists);
   return exists;
 };
 
 const createNewBranch = branch => {
-  execSync(`git checkout -b ${branch}`);
-  execSync(`git push -u origin ${branch}`);
+  cmd(`git checkout -b ${branch}`);
+  cmd(`git push -u origin ${branch}`);
 };
 
 const checkOrCreateBranch = branch => {
@@ -31,9 +29,9 @@ const addAndCommit = ({ dir, isBranch }) => {
   try {
     console.log('Staging changes...');
     const message = isBranch ? `Deploy to ${dir}` : 'Deploy';
-    execSync(`git add ${dir}`);
-    execSync(`git status`);
-    execSync(`git commit -m "${message} :rocket:"`);
+    cmd(`git add ${dir}`);
+    cmd(`git status`);
+    cmd(`git commit -m "${message} :rocket:"`);
   } catch (err) {
     console.log('Caught error:', err);
     console.log('No changes, exiting...');

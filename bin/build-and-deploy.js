@@ -1,4 +1,4 @@
-const { execSync } = require('child_process');
+const { cmd } = require('./utils');
 const gh = require('./github');
 
 const main = () => {
@@ -33,42 +33,41 @@ const main = () => {
   if (TARGET_BRANCH === 'gh-pages' && TARGET_DIR === GITHUB_WORKSPACE) {
     // Only push subtree if we're on gh-pages
     console.log('Deploying to gh-pages root...');
-    execSync('yarn --frozen-lockfile');
-    execSync('yarn build');
+    cmd('yarn --frozen-lockfile');
+    cmd('yarn build');
 
     // This works, but dir will be overwritten by main branch deploy
     if (BRANCH_BUILD) {
-      const branchName = execSync(
-        `git name-rev --name-only HEAD | sed 's/remotes\\/origin\\///g'`,
-        { encoding: 'utf-8' }
+      const branchName = cmd(
+        `git name-rev --name-only HEAD | sed 's/remotes\\/origin\\///g'`
       ).trim();
 
       const branchNameWithPrefix = `branch-${branchName}`;
       const tmpDir = `tmp_${branchNameWithPrefix}`;
-      execSync(`mv ${BUILD_DIR} ${tmpDir}`);
+      cmd(`mv ${BUILD_DIR} ${tmpDir}`);
 
-      execSync(`git fetch`);
-      execSync(`git checkout ${TARGET_BRANCH}`);
-      execSync(`git pull --rebase`);
+      cmd(`git fetch`);
+      cmd(`git checkout ${TARGET_BRANCH}`);
+      cmd(`git pull --rebase`);
 
       console.log('Overwriting old branch folder if it exists...');
-      execSync(`rm -rf ${branchNameWithPrefix}`);
-      execSync(`mv ${tmpDir} ${branchNameWithPrefix}`);
+      cmd(`rm -rf ${branchNameWithPrefix}`);
+      cmd(`mv ${tmpDir} ${branchNameWithPrefix}`);
 
       gh.addAndCommit({ dir: branchNameWithPrefix, isBranch: true });
 
-      execSync(`git push`);
+      cmd(`git push`);
       console.log('Pushed branch directory, exiting...');
       process.exit(0);
     }
 
     // rename dir to allow including build dir in .gitignore
     // (so build dir can be ignored in main branch)
-    execSync(`mv ${BUILD_DIR} tmp_deploy`);
+    cmd(`mv ${BUILD_DIR} tmp_deploy`);
 
     gh.addAndCommit({ dir: TARGET_DIR });
 
-    execSync(
+    cmd(
       `git push ${REMOTE_NAME} $(git subtree split --prefix tmp_deploy):gh-pages --force`
     );
     console.log('Pushed subtree, exiting...');
@@ -76,12 +75,12 @@ const main = () => {
   }
 
   console.log('Checking out branch...');
-  execSync(`git checkout ${TARGET_BRANCH}`);
-  execSync(`git rebase ${REMOTE_NAME}/${MAIN_BRANCH}`);
+  cmd(`git checkout ${TARGET_BRANCH}`);
+  cmd(`git rebase ${REMOTE_NAME}/${MAIN_BRANCH}`);
 
   // Extra `yarn` here is quick if we use yarn cache in pipeline
-  execSync('yarn --frozen-lockfile');
-  execSync('yarn build');
+  cmd('yarn --frozen-lockfile');
+  cmd('yarn build');
 
   if (BUILD_DIR !== TARGET_DIR) {
     if (TARGET_DIR === GITHUB_WORKSPACE) {
@@ -89,14 +88,14 @@ const main = () => {
       process.exit(1);
     }
     console.log(`Renaming ${BUILD_DIR} to ${TARGET_DIR}`);
-    execSync(`mv -v ${BUILD_DIR} ${TARGET_DIR}`);
+    cmd(`mv -v ${BUILD_DIR} ${TARGET_DIR}`);
   } else {
     console.log('Build and target dirs are the same, continuing...');
   }
 
   gh.addAndCommit({ dir: TARGET_DIR });
 
-  execSync(`git push --force-with-lease ${REMOTE_NAME} ${TARGET_BRANCH}`);
+  cmd(`git push --force-with-lease ${REMOTE_NAME} ${TARGET_BRANCH}`);
 };
 
 module.exports = main;
