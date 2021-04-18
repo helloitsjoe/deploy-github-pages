@@ -19,7 +19,7 @@ const main = () => {
   console.log(`Target branch: ${TARGET_BRANCH}`);
   console.log(`Build dir: ${BUILD_DIR}`);
   console.log(`Target dir: ${TARGET_DIR}`);
-  console.log(`Branch build: ${INPUT_BRANCH_BUILD}`);
+  console.log(`Branch build: ${BRANCH_BUILD}`);
 
   // Looks like auth was needed previously, doesn't seem to be anymore
   // REPO_URI="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
