@@ -29,7 +29,7 @@ inputs:
 
 runs:
   using: node12
-  main: bin/build-and-deploy.js
+  main: bin/index.js
   # env:
   #   # GITHUB_TOKEN: ${{ inputs.github_token }}
   #   REMOTE_NAME: ${{ inputs.remote_name }}

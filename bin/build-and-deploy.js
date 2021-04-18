@@ -10,6 +10,7 @@ const main = () => {
     INPUT_TARGET_BRANCH: TARGET_BRANCH,
     INPUT_BUILD_DIR: BUILD_DIR,
     INPUT_BRANCH_BUILD: BRANCH_BUILD,
+    REMOTE_NAME,
   } = process.env;
 
   const TARGET_DIR = INPUT_TARGET_DIR || GITHUB_WORKSPACE;
@@ -26,7 +27,7 @@ const main = () => {
 
   process.chdir(GITHUB_WORKSPACE);
 
-  gh.setConfig(GITHUB_ACTORkk);
+  gh.setConfig(GITHUB_ACTOR);
   gh.checkOrCreateBranch(TARGET_BRANCH);
 
   if (TARGET_BRANCH === 'gh-pages' && TARGET_DIR === GITHUB_WORKSPACE) {
@@ -98,4 +99,4 @@ const main = () => {
   execSync(`git push --force-with-lease ${REMOTE_NAME} ${TARGET_BRANCH}`);
 };
 
-main();
+module.exports = main;
