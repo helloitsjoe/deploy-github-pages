@@ -30,11 +30,3 @@ inputs:
 runs:
   using: node12
   main: bin/index.js
-  # env:
-  #   # GITHUB_TOKEN: ${{ inputs.github_token }}
-  #   REMOTE_NAME: ${{ inputs.remote_name }}
-  #   MAIN_BRANCH: ${{ inputs.main_branch }}
-  #   TARGET_BRANCH: ${{ inputs.target_branch }}
-  #   BUILD_DIR: ${{ inputs.build_dir }}
-  #   TARGET_DIR: ${{ inputs.target_dir }}
-  #   BRANCH_BUILD: ${{ inputs.branch_build }}
