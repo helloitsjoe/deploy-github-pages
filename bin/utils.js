@@ -1,6 +1,9 @@
 const { execSync } = require('child_process');
 
-const cmd = command =>
-  execSync(command, { stdio: 'inherit', encoding: 'utf8' });
+const cmd = command => {
+  const rtn = execSync(command, { encoding: 'utf8' });
+  console.log(rtn);
+  return rtn;
+};
 
 module.exports = { cmd };
