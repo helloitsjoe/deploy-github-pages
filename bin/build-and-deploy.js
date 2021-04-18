@@ -24,7 +24,6 @@ const main = () => {
   // Looks like auth was needed previously, doesn't seem to be anymore
   // REPO_URI="https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
 
-  printInputs();
   process.chdir(GITHUB_WORKSPACE);
 
   gh.setConfig();
