@@ -1,6 +1,30 @@
 const { cmd } = require('./utils');
 const gh = require('./github');
 
+const branchBuild = (buildDir, targetBranch) => {
+  const branchName = cmd(
+    `git name-rev --name-only HEAD | sed 's/remotes\\/origin\\///g'`
+  ).trim();
+
+  const branchWithPrefix = `branch-${branchName}`;
+  const tmpDir = `tmp_${branchWithPrefix}`;
+  cmd(`mv ${buildDir} ${tmpDir}`);
+
+  cmd(`git fetch`);
+  cmd(`git checkout ${targetBranch}`);
+  cmd(`git pull --rebase`);
+
+  console.log(`Overwriting folder ${branchWithPrefix} if it exists...`);
+  cmd(`rm -rf ${branchWithPrefix}`);
+  cmd(`mv ${tmpDir} ${branchWithPrefix}`);
+
+  gh.addAndCommit({ dir: branchWithPrefix, isBranch: true });
+
+  cmd(`git push`);
+  console.log('Pushed branch directory, exiting...');
+  process.exit(0);
+};
+
 const main = () => {
   const {
     GITHUB_WORKSPACE,
@@ -38,27 +62,7 @@ const main = () => {
 
     // This works, but dir will be overwritten by main branch deploy
     if (BRANCH_BUILD) {
-      const branchName = cmd(
-        `git name-rev --name-only HEAD | sed 's/remotes\\/origin\\///g'`
-      ).trim();
-
-      const branchWithPrefix = `branch-${branchName}`;
-      const tmpDir = `tmp_${branchWithPrefix}`;
-      cmd(`mv ${BUILD_DIR} ${tmpDir}`);
-
-      cmd(`git fetch`);
-      cmd(`git checkout ${TARGET_BRANCH}`);
-      cmd(`git pull --rebase`);
-
-      console.log(`Overwriting folder ${branchWithPrefix} if it exists...`);
-      cmd(`rm -rf ${branchWithPrefix}`);
-      cmd(`mv ${tmpDir} ${branchWithPrefix}`);
-
-      gh.addAndCommit({ dir: branchWithPrefix, isBranch: true });
-
-      cmd(`git push`);
-      console.log('Pushed branch directory, exiting...');
-      process.exit(0);
+      branchBuild(BUILD_DIR, TARGET_BRANCH);
     }
 
     // rename dir to allow including build dir in .gitignore
