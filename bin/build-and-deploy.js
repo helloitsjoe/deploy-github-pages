@@ -2,6 +2,7 @@ const { cmd } = require('./utils');
 const gh = require('./github');
 
 const branchBuild = (buildDir, targetBranch) => {
+  // Branch build works, but dir will be overwritten by main branch deploy
   const branchName = cmd(
     `git name-rev --name-only HEAD | sed 's/remotes\\/origin\\///g'`
   ).trim();
@@ -55,12 +56,11 @@ const main = () => {
   gh.checkOrCreateBranch(TARGET_BRANCH);
 
   if (TARGET_BRANCH === 'gh-pages' && TARGET_DIR === GITHUB_WORKSPACE) {
-    // Only push subtree if we're on gh-pages
-    console.log('Deploying to gh-pages root...');
+    console.log('Deploying to gh-pages branch...');
+
     cmd('yarn --frozen-lockfile');
     cmd('yarn build');
 
-    // This works, but dir will be overwritten by main branch deploy
     if (BRANCH_BUILD) {
       branchBuild(BUILD_DIR, TARGET_BRANCH);
     }
@@ -88,7 +88,7 @@ const main = () => {
 
   if (BUILD_DIR !== TARGET_DIR) {
     if (TARGET_DIR === GITHUB_WORKSPACE) {
-      console.log('Build dir appears to be project root. Skipping...');
+      console.log('Build dir appears to be project root, not supported.');
       process.exit(1);
     }
     console.log(`Renaming ${BUILD_DIR} to ${TARGET_DIR}`);
