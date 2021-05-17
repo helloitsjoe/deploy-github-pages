@@ -9,7 +9,7 @@ const branchBuild = (buildDir, targetBranch) => {
 
   if (branchName.match(/dependabot/)) {
     // TODO: Let's not process.exit from the middle of these deep nested fns
-    process.exit(0)
+    process.exit(0);
   }
 
   const branchWithPrefix = `branch-${branchName}`;
@@ -66,7 +66,7 @@ const main = () => {
     cmd('yarn --frozen-lockfile');
     cmd('yarn build');
 
-    if (BRANCH_BUILD && ) {
+    if (BRANCH_BUILD) {
       branchBuild(BUILD_DIR, TARGET_BRANCH);
     }
 
