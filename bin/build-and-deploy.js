@@ -7,6 +7,11 @@ const branchBuild = (buildDir, targetBranch) => {
     `git name-rev --name-only HEAD | sed 's/remotes\\/origin\\///g'`
   ).trim();
 
+  if (branchName.match(/dependabot/)) {
+    // TODO: Let's not process.exit from the middle of these deep nested fns
+    process.exit(0)
+  }
+
   const branchWithPrefix = `branch-${branchName}`;
   const tmpDir = `tmp_${branchWithPrefix}`;
   cmd(`mv ${buildDir} ${tmpDir}`);
@@ -61,7 +66,7 @@ const main = () => {
     cmd('yarn --frozen-lockfile');
     cmd('yarn build');
 
-    if (BRANCH_BUILD) {
+    if (BRANCH_BUILD && ) {
       branchBuild(BUILD_DIR, TARGET_BRANCH);
     }
 
