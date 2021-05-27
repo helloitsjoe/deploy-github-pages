@@ -7,7 +7,10 @@ const branchBuild = (buildDir, targetBranch) => {
     `git name-rev --name-only HEAD | sed 's/remotes\\/origin\\///g'`
   ).trim();
 
+  // TODO: Sanitize branch names (slashes, dots, etc)
+
   if (branchName.match(/dependabot/)) {
+    console.log('Skipping dependabot branch deploy...');
     // TODO: Let's not process.exit from the middle of these deep nested fns
     process.exit(0);
   }
