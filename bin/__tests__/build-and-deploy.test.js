@@ -3,6 +3,7 @@ const cp = require('child_process');
 
 jest.mock('child_process');
 process.chdir = jest.fn();
+process.env.INPUT_TARGET_DIR = 'dist';
 
 beforeEach(() => {
   cp.execSync = jest.fn();
