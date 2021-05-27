@@ -13,6 +13,8 @@ jobs:
         with:
           fetch-depth: 0
 
+      - run: yarn
+      - run: yarn test
       - name: Deploy
         id: deploy
         uses: ./
