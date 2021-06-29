@@ -16,6 +16,9 @@ const createNewBranch = branch => {
   cmd(`git push -u origin ${branch}`);
 };
 
+const getBranchName = () =>
+  cmd(`git name-rev --name-only HEAD | sed 's/remotes\\/origin\\///g'`) || '';
+
 const checkOrCreateBranch = branch => {
   if (branchExists(branch)) {
     console.log('Branch exists, continuing...');
@@ -43,4 +46,5 @@ module.exports = {
   setConfig,
   checkOrCreateBranch,
   addAndCommit,
+  getBranchName,
 };

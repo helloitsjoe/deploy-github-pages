@@ -1,3 +1,7 @@
 const buildAndDeploy = require('./build-and-deploy');
 
-buildAndDeploy();
+try {
+  buildAndDeploy();
+} catch (e) {
+  console.error(e);
+}
