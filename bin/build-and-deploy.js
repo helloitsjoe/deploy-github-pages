@@ -8,6 +8,9 @@ const branchDeploy = (
 ) => {
   // Branch build works, but dir will be overwritten by main branch deploy
 
+  cmd('yarn --frozen-lockfile');
+  cmd('yarn build');
+
   // TODO: Sanitize branch names (slashes, dots, etc)
 
   if (deployBranchName.match(/dependabot/)) {
@@ -31,6 +34,57 @@ const branchDeploy = (
 
   cmd(`git push`);
   console.log('Pushed branch directory, exiting...');
+};
+
+const deployToRootGhPagesBranch = ({ buildDir, targetDir, remoteName }) => {
+  console.log('Deploying to gh-pages branch...');
+
+  cmd('yarn --frozen-lockfile');
+  cmd('yarn build');
+
+  // rename dir to allow including build dir in .gitignore
+  // (so build dir can be ignored in main branch)
+  cmd(`mv ${buildDir} tmp_deploy`);
+
+  gh.addAndCommit({ dir: targetDir });
+
+  cmd(
+    `git push ${remoteName} $(git subtree split --prefix tmp_deploy):gh-pages --force`
+  );
+
+  console.log('Deployed to gh-pages, exiting...');
+  return;
+};
+
+const deployToDir = ({
+  targetBranch,
+  remoteName,
+  mainBranch,
+  buildDir,
+  targetDir,
+  githubWorkspace,
+}) => {
+  console.log('Checking out branch...');
+  cmd(`git checkout ${targetBranch}`);
+  cmd(`git rebase ${remoteName}/${mainBranch}`);
+
+  // Extra `yarn` here is quick if we use yarn cache in pipeline
+  cmd('yarn --frozen-lockfile');
+  cmd('yarn build');
+
+  if (buildDir !== targetDir) {
+    if (targetDir === githubWorkspace) {
+      throw new Error('Build dir appears to be project root, not supported.');
+    }
+    console.log(`Renaming ${buildDir} to ${targetDir}`);
+    cmd(`mv -v ${buildDir} ${targetDir}`);
+  } else {
+    console.log('Build and target dirs are the same, continuing...');
+  }
+
+  gh.addAndCommit({ dir: targetDir });
+
+  cmd(`git push --force-with-lease ${remoteName} ${targetBranch}`);
 };
 
 const {
@@ -74,51 +128,24 @@ const main = ({
     gh.checkOrCreateBranch(targetBranch);
   }
 
-  if (targetBranch === 'gh-pages' && targetDir === githubWorkspace) {
-    console.log('Deploying to gh-pages branch...');
-
-    cmd('yarn --frozen-lockfile');
-    cmd('yarn build');
-
-    if (branchBuild) {
-      branchDeploy(buildDir, targetBranch, deployBranchName);
-      return;
-    }
-
-    // rename dir to allow including build dir in .gitignore
-    // (so build dir can be ignored in main branch)
-    cmd(`mv ${buildDir} tmp_deploy`);
-
-    gh.addAndCommit({ dir: targetDir });
-
-    cmd(
-      `git push ${remoteName} $(git subtree split --prefix tmp_deploy):gh-pages --force`
-    );
-    console.log('Pushed subtree, exiting...');
+  if (branchBuild) {
+    branchDeploy(buildDir, targetBranch, deployBranchName);
     return;
   }
 
-  console.log('Checking out branch...');
-  cmd(`git checkout ${targetBranch}`);
-  cmd(`git rebase ${remoteName}/${mainBranch}`);
-
-  // Extra `yarn` here is quick if we use yarn cache in pipeline
-  cmd('yarn --frozen-lockfile');
-  cmd('yarn build');
-
-  if (buildDir !== targetDir) {
-    if (targetDir === githubWorkspace) {
-      throw new Error('Build dir appears to be project root, not supported.');
-    }
-    console.log(`Renaming ${buildDir} to ${targetDir}`);
-    cmd(`mv -v ${buildDir} ${targetDir}`);
-  } else {
-    console.log('Build and target dirs are the same, continuing...');
+  if (targetBranch === 'gh-pages' && targetDir === githubWorkspace) {
+    deployToRootGhPagesBranch({ buildDir, targetDir, remoteName });
+    return;
   }
 
-  gh.addAndCommit({ dir: targetDir });
-
-  cmd(`git push --force-with-lease ${remoteName} ${targetBranch}`);
+  deployToDir({
+    targetBranch,
+    remoteName,
+    mainBranch,
+    buildDir,
+    targetDir,
+    githubWorkspace,
+  });
 };
 
 module.exports = main;
