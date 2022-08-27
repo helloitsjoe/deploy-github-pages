@@ -4,14 +4,14 @@ const gh = require('./github');
 const branchDeploy = (
   buildDir,
   targetBranch,
-  deployBranchName = gh.getBranchName()
+  rawDeployBranchName = gh.getBranchName()
 ) => {
   // Branch build works, but dir will be overwritten by main branch deploy
 
   cmd('yarn --frozen-lockfile');
   cmd('yarn build');
 
-  // TODO: Sanitize branch names (slashes, dots, etc)
+  const deployBranchName = gh.sanitizeBranchName(rawDeployBranchName);
 
   if (deployBranchName.match(/dependabot/)) {
     console.log('Skipping dependabot branch deploy...');

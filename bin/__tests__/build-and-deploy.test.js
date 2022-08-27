@@ -38,12 +38,27 @@ describe('main', () => {
       /Build dir appears to be project root, not supported./
     );
   });
+
+  it('sanitizes branches with slashes', () => {
+    buildAndDeploy({
+      ...config,
+      branchBuild: true,
+      deployBranchName: 'some/branch',
+      // Skip git push in gh.checkOrCreateBranch
+      targetBranchExists: true,
+    });
+
+    expect(cmd).toBeCalledWith(expect.stringContaining('branch-some-branch'));
+    expect(cmd).not.toBeCalledWith(
+      expect.stringContaining('branch-some/branch')
+    );
+  });
 });
 
 describe('CLI Commands', () => {
   it('deploys to gh-pages by default', () => {
     buildAndDeploy(config);
-    const args = cmd.mock.calls.map(call => call[0]);
+    const args = cmd.mock.calls.map((call) => call[0]);
     expect(args).toMatchInlineSnapshot(`
       Array [
         "git config user.name some-actor",
@@ -64,7 +79,7 @@ describe('CLI Commands', () => {
 
   it('runs commands for main build', () => {
     buildAndDeploy({ ...config, buildDir: 'public', targetDir: 'dist' });
-    const args = cmd.mock.calls.map(call => call[0]);
+    const args = cmd.mock.calls.map((call) => call[0]);
     expect(args).toMatchInlineSnapshot(`
       Array [
         "git config user.name some-actor",
@@ -91,7 +106,7 @@ describe('CLI Commands', () => {
       branchBuild: true,
       deployBranchName: 'testing',
     });
-    const args = cmd.mock.calls.map(call => call[0]);
+    const args = cmd.mock.calls.map((call) => call[0]);
     expect(args).toMatchInlineSnapshot(`
       Array [
         "git config user.name some-actor",

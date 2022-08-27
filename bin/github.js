@@ -1,17 +1,17 @@
 const { cmd } = require('./utils');
 
-const setConfig = actor => {
+const setConfig = (actor) => {
   cmd(`git config user.name ${actor}`);
   cmd(`git config user.email ${actor}@bots.github.com`);
 };
 
-const branchExists = branch => {
+const branchExists = (branch) => {
   const exists = cmd(`git ls-remote --heads origin ${branch}`);
   console.log(`Branch exists:`, exists);
   return exists;
 };
 
-const createNewBranch = branch => {
+const createNewBranch = (branch) => {
   cmd(`git checkout -b ${branch}`);
   cmd(`git push -u origin ${branch}`);
 };
@@ -19,7 +19,10 @@ const createNewBranch = branch => {
 const getBranchName = () =>
   cmd(`git name-rev --name-only HEAD | sed 's/remotes\\/origin\\///g'`) || '';
 
-const checkOrCreateBranch = branch => {
+// Simple sanitization for now, only replace slash with dash
+const sanitizeBranchName = (branch) => branch.replace('/', '-');
+
+const checkOrCreateBranch = (branch) => {
   if (branchExists(branch)) {
     console.log('Branch exists, continuing...');
     return;
@@ -45,6 +48,7 @@ const addAndCommit = ({ dir, isBranch }) => {
 module.exports = {
   setConfig,
   checkOrCreateBranch,
+  sanitizeBranchName,
   addAndCommit,
   getBranchName,
 };
